@@ -254,13 +254,13 @@
       "languageVersion": "3.4"
     },
     {
-      "name": "kauy",
+      "name": "projectmobile",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "3.6"
     }
   ],
-  "generated": "2025-04-17T18:29:29.584905Z",
+  "generated": "2025-04-17T20:44:52.925073Z",
   "generator": "pub",
   "generatorVersion": "3.6.1",
   "flutterRoot": "file:///C:/flutter",

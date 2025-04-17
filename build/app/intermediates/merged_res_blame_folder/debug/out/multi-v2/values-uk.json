@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.kauy.app-mergeDebugResources-33:/values-uk/values-uk.xml",
+            "outputFile": "com.example.projectmobile.app-mergeDebugResources-33:/values-uk/values-uk.xml",
             "map": [
                 {
                     "source": "C:\\Users\\user\\.gradle\\caches\\transforms-3\\e436391d4eabda697fceffbdd6837f99\\transformed\\jetified-credentials-1.2.0-rc01\\res\\values-uk\\values-uk.xml",

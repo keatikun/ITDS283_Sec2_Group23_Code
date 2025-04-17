@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.kauy.app-mergeDebugResources-33:/values/values.xml",
+            "outputFile": "com.example.projectmobile.app-mergeDebugResources-33:/values/values.xml",
             "map": [
                 {
                     "source": "C:\\Users\\user\\.gradle\\caches\\transforms-3\\961dd28d9293c223e24e5015230aa17b\\transformed\\lifecycle-runtime-2.7.0\\res\\values\\values.xml",
@@ -18,25 +18,6 @@
                         "startOffsets": "8001",
                         "endColumns": "42",
                         "endOffsets": "8039"
-                    }
-                },
-                {
-                    "source": "D:\\P2_T2\\Mobile\\kauy\\android\\app\\src\\main\\res\\values\\styles.xml",
-                    "from": {
-                        "startLines": "3,14",
-                        "startColumns": "4,4",
-                        "startOffsets": "176,832",
-                        "endLines": "7,16",
-                        "endColumns": "12,12",
-                        "endOffsets": "483,998"
-                    },
-                    "to": {
-                        "startLines": "200,204",
-                        "startColumns": "4,4",
-                        "startOffsets": "12455,12636",
-                        "endLines": "203,206",
-                        "endColumns": "12,12",
-                        "endOffsets": "12631,12800"
                     }
                 },
                 {
@@ -108,23 +89,6 @@
                     }
                 },
                 {
-                    "source": "D:\\P2_T2\\Mobile\\kauy\\build\\app\\generated\\res\\google-services\\debug\\values\\values.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7",
-                        "startColumns": "4,4,4,4,4,4",
-                        "startOffsets": "55,137,241,350,470,577",
-                        "endColumns": "81,103,108,119,106,75",
-                        "endOffsets": "132,236,345,465,572,648"
-                    },
-                    "to": {
-                        "startLines": "193,194,195,196,197,198",
-                        "startColumns": "4,4,4,4,4,4",
-                        "startOffsets": "11786,11868,11972,12081,12201,12308",
-                        "endColumns": "81,103,108,119,106,75",
-                        "endOffsets": "11863,11967,12076,12196,12303,12379"
-                    }
-                },
-                {
                     "source": "C:\\Users\\user\\.gradle\\caches\\transforms-3\\d231944945e1b0e04c67346c100c28b6\\transformed\\jetified-window-1.2.0\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2,3,9,17,25,37,43,49,50,51,52,53,54,55,61,66,74,89",
@@ -177,6 +141,23 @@
                         "endLines": "221",
                         "endColumns": "12",
                         "endOffsets": "13781"
+                    }
+                },
+                {
+                    "source": "D:\\P2_T2\\Mobile\\projectmobile\\build\\app\\generated\\res\\google-services\\debug\\values\\values.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7",
+                        "startColumns": "4,4,4,4,4,4",
+                        "startOffsets": "55,137,241,350,470,577",
+                        "endColumns": "81,103,108,119,106,75",
+                        "endOffsets": "132,236,345,465,572,648"
+                    },
+                    "to": {
+                        "startLines": "193,194,195,196,197,198",
+                        "startColumns": "4,4,4,4,4,4",
+                        "startOffsets": "11786,11868,11972,12081,12201,12308",
+                        "endColumns": "81,103,108,119,106,75",
+                        "endOffsets": "11863,11967,12076,12196,12303,12379"
                     }
                 },
                 {
@@ -268,6 +249,25 @@
                         "startOffsets": "1933,1991,2057,2120,3116,3187,11503,11571,11638,11717",
                         "endColumns": "57,65,62,61,70,71,67,66,78,68",
                         "endOffsets": "1986,2052,2115,2177,3182,3254,11566,11633,11712,11781"
+                    }
+                },
+                {
+                    "source": "D:\\P2_T2\\Mobile\\projectmobile\\android\\app\\src\\main\\res\\values\\styles.xml",
+                    "from": {
+                        "startLines": "3,14",
+                        "startColumns": "4,4",
+                        "startOffsets": "176,832",
+                        "endLines": "7,16",
+                        "endColumns": "12,12",
+                        "endOffsets": "483,998"
+                    },
+                    "to": {
+                        "startLines": "200,204",
+                        "startColumns": "4,4",
+                        "startOffsets": "12455,12636",
+                        "endLines": "203,206",
+                        "endColumns": "12,12",
+                        "endOffsets": "12631,12800"
                     }
                 },
                 {

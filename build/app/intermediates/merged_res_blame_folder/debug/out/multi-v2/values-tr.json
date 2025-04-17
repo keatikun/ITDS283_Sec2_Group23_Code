@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.kauy.app-mergeDebugResources-33:/values-tr/values-tr.xml",
+            "outputFile": "com.example.projectmobile.app-mergeDebugResources-33:/values-tr/values-tr.xml",
             "map": [
                 {
                     "source": "C:\\Users\\user\\.gradle\\caches\\transforms-3\\3e4fa42964ec6369b3a52ce840a46646\\transformed\\core-1.13.1\\res\\values-tr\\values-tr.xml",

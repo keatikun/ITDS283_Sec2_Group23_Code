@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.kauy.app-mergeDebugResources-33:/values-v21/values-v21.xml",
+            "outputFile": "com.example.projectmobile.app-mergeDebugResources-33:/values-v21/values-v21.xml",
             "map": [
                 {
                     "source": "C:\\Users\\user\\.gradle\\caches\\transforms-3\\8f88b8767b77b3146d52884588513967\\transformed\\jetified-credentials-play-services-auth-1.2.0-rc01\\res\\values-v21\\values-v21.xml",

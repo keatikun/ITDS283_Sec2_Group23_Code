@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.kauy.app-mergeDebugResources-33:/values-night-v8/values-night-v8.xml",
+            "outputFile": "com.example.projectmobile.app-mergeDebugResources-33:/values-night-v8/values-night-v8.xml",
             "map": [
                 {
-                    "source": "D:\\P2_T2\\Mobile\\kauy\\android\\app\\src\\main\\res\\values-night\\styles.xml",
+                    "source": "D:\\P2_T2\\Mobile\\projectmobile\\android\\app\\src\\main\\res\\values-night\\styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",

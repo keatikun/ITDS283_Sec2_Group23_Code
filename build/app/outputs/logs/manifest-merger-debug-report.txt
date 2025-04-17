@@ -1,13 +1,13 @@
 -- Merging decision tree log ---
 application
-INJECTED from D:\P2_T2\Mobile\kauy\android\app\src\main\AndroidManifest.xml:2:5-33:19
-INJECTED from D:\P2_T2\Mobile\kauy\android\app\src\debug\AndroidManifest.xml
-MERGED from [:cloud_firestore] D:\P2_T2\Mobile\kauy\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:7:5-13:19
-MERGED from [:cloud_firestore] D:\P2_T2\Mobile\kauy\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:7:5-13:19
-MERGED from [:firebase_auth] D:\P2_T2\Mobile\kauy\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:7:5-13:19
-MERGED from [:firebase_auth] D:\P2_T2\Mobile\kauy\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:7:5-13:19
-MERGED from [:firebase_core] D:\P2_T2\Mobile\kauy\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:7:5-13:19
-MERGED from [:firebase_core] D:\P2_T2\Mobile\kauy\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:7:5-13:19
+INJECTED from D:\P2_T2\Mobile\projectmobile\android\app\src\main\AndroidManifest.xml:2:5-33:19
+INJECTED from D:\P2_T2\Mobile\projectmobile\android\app\src\debug\AndroidManifest.xml
+MERGED from [:cloud_firestore] D:\P2_T2\Mobile\projectmobile\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:7:5-13:19
+MERGED from [:cloud_firestore] D:\P2_T2\Mobile\projectmobile\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:7:5-13:19
+MERGED from [:firebase_auth] D:\P2_T2\Mobile\projectmobile\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:7:5-13:19
+MERGED from [:firebase_auth] D:\P2_T2\Mobile\projectmobile\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:7:5-13:19
+MERGED from [:firebase_core] D:\P2_T2\Mobile\projectmobile\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:7:5-13:19
+MERGED from [:firebase_core] D:\P2_T2\Mobile\projectmobile\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:7:5-13:19
 MERGED from [com.google.firebase:firebase-auth:23.2.0] C:\Users\user\.gradle\caches\transforms-3\76519965478b8e01fb9c64e34bff22a4\transformed\jetified-firebase-auth-23.2.0\AndroidManifest.xml:28:5-73:19
 MERGED from [com.google.firebase:firebase-auth:23.2.0] C:\Users\user\.gradle\caches\transforms-3\76519965478b8e01fb9c64e34bff22a4\transformed\jetified-firebase-auth-23.2.0\AndroidManifest.xml:28:5-73:19
 MERGED from [com.google.firebase:firebase-firestore:25.1.3] C:\Users\user\.gradle\caches\transforms-3\ddb52affc729a05c1e84e5adffd67122\transformed\jetified-firebase-firestore-25.1.3\AndroidManifest.xml:13:5-24:19
@@ -49,20 +49,20 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\us
 MERGED from [com.google.android.play:core-common:2.0.3] C:\Users\user\.gradle\caches\transforms-3\8d546d29258797e40dff5c06901fb351\transformed\jetified-core-common-2.0.3\AndroidManifest.xml:11:5-19:19
 MERGED from [com.google.android.play:core-common:2.0.3] C:\Users\user\.gradle\caches\transforms-3\8d546d29258797e40dff5c06901fb351\transformed\jetified-core-common-2.0.3\AndroidManifest.xml:11:5-19:19
 	android:extractNativeLibs
-		INJECTED from D:\P2_T2\Mobile\kauy\android\app\src\debug\AndroidManifest.xml
+		INJECTED from D:\P2_T2\Mobile\projectmobile\android\app\src\debug\AndroidManifest.xml
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.13.1] C:\Users\user\.gradle\caches\transforms-3\3e4fa42964ec6369b3a52ce840a46646\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
 	android:name
-		INJECTED from D:\P2_T2\Mobile\kauy\android\app\src\main\AndroidManifest.xml
+		INJECTED from D:\P2_T2\Mobile\projectmobile\android\app\src\main\AndroidManifest.xml
 manifest
-ADDED from D:\P2_T2\Mobile\kauy\android\app\src\main\AndroidManifest.xml:1:1-45:12
-MERGED from D:\P2_T2\Mobile\kauy\android\app\src\main\AndroidManifest.xml:1:1-45:12
-INJECTED from D:\P2_T2\Mobile\kauy\android\app\src\debug\AndroidManifest.xml:1:1-7:12
-INJECTED from D:\P2_T2\Mobile\kauy\android\app\src\debug\AndroidManifest.xml:1:1-7:12
-INJECTED from D:\P2_T2\Mobile\kauy\android\app\src\debug\AndroidManifest.xml:1:1-7:12
-MERGED from [:cloud_firestore] D:\P2_T2\Mobile\kauy\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-15:12
-MERGED from [:firebase_auth] D:\P2_T2\Mobile\kauy\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-15:12
-MERGED from [:firebase_core] D:\P2_T2\Mobile\kauy\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-15:12
+ADDED from D:\P2_T2\Mobile\projectmobile\android\app\src\main\AndroidManifest.xml:1:1-45:12
+MERGED from D:\P2_T2\Mobile\projectmobile\android\app\src\main\AndroidManifest.xml:1:1-45:12
+INJECTED from D:\P2_T2\Mobile\projectmobile\android\app\src\debug\AndroidManifest.xml:1:1-7:12
+INJECTED from D:\P2_T2\Mobile\projectmobile\android\app\src\debug\AndroidManifest.xml:1:1-7:12
+INJECTED from D:\P2_T2\Mobile\projectmobile\android\app\src\debug\AndroidManifest.xml:1:1-7:12
+MERGED from [:cloud_firestore] D:\P2_T2\Mobile\projectmobile\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-15:12
+MERGED from [:firebase_auth] D:\P2_T2\Mobile\projectmobile\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-15:12
+MERGED from [:firebase_core] D:\P2_T2\Mobile\projectmobile\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-15:12
 MERGED from [com.google.firebase:firebase-auth:23.2.0] C:\Users\user\.gradle\caches\transforms-3\76519965478b8e01fb9c64e34bff22a4\transformed\jetified-firebase-auth-23.2.0\AndroidManifest.xml:17:1-75:12
 MERGED from [com.google.firebase:firebase-firestore:25.1.3] C:\Users\user\.gradle\caches\transforms-3\ddb52affc729a05c1e84e5adffd67122\transformed\jetified-firebase-firestore-25.1.3\AndroidManifest.xml:2:1-26:12
 MERGED from [com.google.firebase:firebase-common-ktx:21.0.0] C:\Users\user\.gradle\caches\transforms-3\acee08ca0041b45ed8f1d2fed54fda67\transformed\jetified-firebase-common-ktx-21.0.0\AndroidManifest.xml:2:1-18:12
@@ -115,27 +115,27 @@ MERGED from [com.google.firebase:protolite-well-known-types:18.0.1] C:\Users\use
 MERGED from [io.grpc:grpc-android:1.62.2] C:\Users\user\.gradle\caches\transforms-3\dc6690fdfbac97f6ab51b14e5ca7910a\transformed\jetified-grpc-android-1.62.2\AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.android.play:core-common:2.0.3] C:\Users\user\.gradle\caches\transforms-3\8d546d29258797e40dff5c06901fb351\transformed\jetified-core-common-2.0.3\AndroidManifest.xml:2:1-21:12
 	package
-		INJECTED from D:\P2_T2\Mobile\kauy\android\app\src\debug\AndroidManifest.xml
+		INJECTED from D:\P2_T2\Mobile\projectmobile\android\app\src\debug\AndroidManifest.xml
 	android:versionName
-		INJECTED from D:\P2_T2\Mobile\kauy\android\app\src\debug\AndroidManifest.xml
+		INJECTED from D:\P2_T2\Mobile\projectmobile\android\app\src\debug\AndroidManifest.xml
 	android:versionCode
-		INJECTED from D:\P2_T2\Mobile\kauy\android\app\src\debug\AndroidManifest.xml
+		INJECTED from D:\P2_T2\Mobile\projectmobile\android\app\src\debug\AndroidManifest.xml
 	xmlns:android
-		ADDED from D:\P2_T2\Mobile\kauy\android\app\src\main\AndroidManifest.xml:1:11-69
+		ADDED from D:\P2_T2\Mobile\projectmobile\android\app\src\main\AndroidManifest.xml:1:11-69
 queries
-ADDED from D:\P2_T2\Mobile\kauy\android\app\src\main\AndroidManifest.xml:39:5-44:15
+ADDED from D:\P2_T2\Mobile\projectmobile\android\app\src\main\AndroidManifest.xml:39:5-44:15
 intent#action:name:android.intent.action.PROCESS_TEXT+data:mimeType:text/plain
-ADDED from D:\P2_T2\Mobile\kauy\android\app\src\main\AndroidManifest.xml:40:9-43:18
+ADDED from D:\P2_T2\Mobile\projectmobile\android\app\src\main\AndroidManifest.xml:40:9-43:18
 action#android.intent.action.PROCESS_TEXT
-ADDED from D:\P2_T2\Mobile\kauy\android\app\src\main\AndroidManifest.xml:41:13-72
+ADDED from D:\P2_T2\Mobile\projectmobile\android\app\src\main\AndroidManifest.xml:41:13-72
 	android:name
-		ADDED from D:\P2_T2\Mobile\kauy\android\app\src\main\AndroidManifest.xml:41:21-70
+		ADDED from D:\P2_T2\Mobile\projectmobile\android\app\src\main\AndroidManifest.xml:41:21-70
 data
-ADDED from D:\P2_T2\Mobile\kauy\android\app\src\main\AndroidManifest.xml:42:13-50
+ADDED from D:\P2_T2\Mobile\projectmobile\android\app\src\main\AndroidManifest.xml:42:13-50
 	android:mimeType
-		ADDED from D:\P2_T2\Mobile\kauy\android\app\src\main\AndroidManifest.xml:42:19-48
+		ADDED from D:\P2_T2\Mobile\projectmobile\android\app\src\main\AndroidManifest.xml:42:19-48
 uses-permission#android.permission.INTERNET
-ADDED from D:\P2_T2\Mobile\kauy\android\app\src\debug\AndroidManifest.xml:6:5-66
+ADDED from D:\P2_T2\Mobile\projectmobile\android\app\src\debug\AndroidManifest.xml:6:5-66
 MERGED from [com.google.firebase:firebase-auth:23.2.0] C:\Users\user\.gradle\caches\transforms-3\76519965478b8e01fb9c64e34bff22a4\transformed\jetified-firebase-auth-23.2.0\AndroidManifest.xml:25:5-67
 MERGED from [com.google.firebase:firebase-auth:23.2.0] C:\Users\user\.gradle\caches\transforms-3\76519965478b8e01fb9c64e34bff22a4\transformed\jetified-firebase-auth-23.2.0\AndroidManifest.xml:25:5-67
 MERGED from [com.google.firebase:firebase-firestore:25.1.3] C:\Users\user\.gradle\caches\transforms-3\ddb52affc729a05c1e84e5adffd67122\transformed\jetified-firebase-firestore-25.1.3\AndroidManifest.xml:11:5-67
@@ -143,17 +143,17 @@ MERGED from [com.google.firebase:firebase-firestore:25.1.3] C:\Users\user\.gradl
 MERGED from [com.google.android.recaptcha:recaptcha:18.6.1] C:\Users\user\.gradle\caches\transforms-3\230d4276d1f3240bbcb992f1e851b49b\transformed\jetified-recaptcha-18.6.1\AndroidManifest.xml:7:5-67
 MERGED from [com.google.android.recaptcha:recaptcha:18.6.1] C:\Users\user\.gradle\caches\transforms-3\230d4276d1f3240bbcb992f1e851b49b\transformed\jetified-recaptcha-18.6.1\AndroidManifest.xml:7:5-67
 	android:name
-		ADDED from D:\P2_T2\Mobile\kauy\android\app\src\debug\AndroidManifest.xml:6:22-64
+		ADDED from D:\P2_T2\Mobile\projectmobile\android\app\src\debug\AndroidManifest.xml:6:22-64
 uses-sdk
-INJECTED from D:\P2_T2\Mobile\kauy\android\app\src\debug\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from D:\P2_T2\Mobile\kauy\android\app\src\debug\AndroidManifest.xml
-INJECTED from D:\P2_T2\Mobile\kauy\android\app\src\debug\AndroidManifest.xml
-MERGED from [:cloud_firestore] D:\P2_T2\Mobile\kauy\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:cloud_firestore] D:\P2_T2\Mobile\kauy\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:firebase_auth] D:\P2_T2\Mobile\kauy\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:firebase_auth] D:\P2_T2\Mobile\kauy\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:firebase_core] D:\P2_T2\Mobile\kauy\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:firebase_core] D:\P2_T2\Mobile\kauy\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+INJECTED from D:\P2_T2\Mobile\projectmobile\android\app\src\debug\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\P2_T2\Mobile\projectmobile\android\app\src\debug\AndroidManifest.xml
+INJECTED from D:\P2_T2\Mobile\projectmobile\android\app\src\debug\AndroidManifest.xml
+MERGED from [:cloud_firestore] D:\P2_T2\Mobile\projectmobile\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:cloud_firestore] D:\P2_T2\Mobile\projectmobile\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:firebase_auth] D:\P2_T2\Mobile\projectmobile\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:firebase_auth] D:\P2_T2\Mobile\projectmobile\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:firebase_core] D:\P2_T2\Mobile\projectmobile\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:firebase_core] D:\P2_T2\Mobile\projectmobile\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-auth:23.2.0] C:\Users\user\.gradle\caches\transforms-3\76519965478b8e01fb9c64e34bff22a4\transformed\jetified-firebase-auth-23.2.0\AndroidManifest.xml:21:5-23:151
 MERGED from [com.google.firebase:firebase-auth:23.2.0] C:\Users\user\.gradle\caches\transforms-3\76519965478b8e01fb9c64e34bff22a4\transformed\jetified-firebase-auth-23.2.0\AndroidManifest.xml:21:5-23:151
 MERGED from [com.google.firebase:firebase-firestore:25.1.3] C:\Users\user\.gradle\caches\transforms-3\ddb52affc729a05c1e84e5adffd67122\transformed\jetified-firebase-firestore-25.1.3\AndroidManifest.xml:6:5-44
@@ -259,15 +259,15 @@ MERGED from [com.google.android.play:core-common:2.0.3] C:\Users\user\.gradle\ca
 	tools:overrideLibrary
 		ADDED from [com.google.firebase:firebase-auth:23.2.0] C:\Users\user\.gradle\caches\transforms-3\76519965478b8e01fb9c64e34bff22a4\transformed\jetified-firebase-auth-23.2.0\AndroidManifest.xml:23:9-148
 	android:targetSdkVersion
-		INJECTED from D:\P2_T2\Mobile\kauy\android\app\src\debug\AndroidManifest.xml
+		INJECTED from D:\P2_T2\Mobile\projectmobile\android\app\src\debug\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from D:\P2_T2\Mobile\kauy\android\app\src\debug\AndroidManifest.xml
+		INJECTED from D:\P2_T2\Mobile\projectmobile\android\app\src\debug\AndroidManifest.xml
 service#com.google.firebase.components.ComponentDiscoveryService
-ADDED from [:cloud_firestore] D:\P2_T2\Mobile\kauy\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:8:9-12:19
-MERGED from [:firebase_auth] D:\P2_T2\Mobile\kauy\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:8:9-12:19
-MERGED from [:firebase_auth] D:\P2_T2\Mobile\kauy\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:8:9-12:19
-MERGED from [:firebase_core] D:\P2_T2\Mobile\kauy\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:8:9-12:19
-MERGED from [:firebase_core] D:\P2_T2\Mobile\kauy\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:8:9-12:19
+ADDED from [:cloud_firestore] D:\P2_T2\Mobile\projectmobile\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:8:9-12:19
+MERGED from [:firebase_auth] D:\P2_T2\Mobile\projectmobile\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:8:9-12:19
+MERGED from [:firebase_auth] D:\P2_T2\Mobile\projectmobile\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:8:9-12:19
+MERGED from [:firebase_core] D:\P2_T2\Mobile\projectmobile\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:8:9-12:19
+MERGED from [:firebase_core] D:\P2_T2\Mobile\projectmobile\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:8:9-12:19
 MERGED from [com.google.firebase:firebase-auth:23.2.0] C:\Users\user\.gradle\caches\transforms-3\76519965478b8e01fb9c64e34bff22a4\transformed\jetified-firebase-auth-23.2.0\AndroidManifest.xml:66:9-72:19
 MERGED from [com.google.firebase:firebase-auth:23.2.0] C:\Users\user\.gradle\caches\transforms-3\76519965478b8e01fb9c64e34bff22a4\transformed\jetified-firebase-auth-23.2.0\AndroidManifest.xml:66:9-72:19
 MERGED from [com.google.firebase:firebase-firestore:25.1.3] C:\Users\user\.gradle\caches\transforms-3\ddb52affc729a05c1e84e5adffd67122\transformed\jetified-firebase-firestore-25.1.3\AndroidManifest.xml:14:9-23:19
@@ -283,25 +283,25 @@ MERGED from [com.google.firebase:firebase-common:21.0.0] C:\Users\user\.gradle\c
 	android:directBootAware
 		ADDED from [com.google.firebase:firebase-common:21.0.0] C:\Users\user\.gradle\caches\transforms-3\adb3c7d5e12830590844eddff8d9c41e\transformed\jetified-firebase-common-21.0.0\AndroidManifest.xml:32:13-43
 	android:name
-		ADDED from [:cloud_firestore] D:\P2_T2\Mobile\kauy\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:8:18-89
+		ADDED from [:cloud_firestore] D:\P2_T2\Mobile\projectmobile\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:8:18-89
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar
-ADDED from [:cloud_firestore] D:\P2_T2\Mobile\kauy\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:9:13-11:85
+ADDED from [:cloud_firestore] D:\P2_T2\Mobile\projectmobile\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:9:13-11:85
 	android:value
-		ADDED from [:cloud_firestore] D:\P2_T2\Mobile\kauy\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:11:17-82
+		ADDED from [:cloud_firestore] D:\P2_T2\Mobile\projectmobile\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:11:17-82
 	android:name
-		ADDED from [:cloud_firestore] D:\P2_T2\Mobile\kauy\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:10:17-134
+		ADDED from [:cloud_firestore] D:\P2_T2\Mobile\projectmobile\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:10:17-134
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar
-ADDED from [:firebase_auth] D:\P2_T2\Mobile\kauy\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:9:13-11:85
+ADDED from [:firebase_auth] D:\P2_T2\Mobile\projectmobile\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:9:13-11:85
 	android:value
-		ADDED from [:firebase_auth] D:\P2_T2\Mobile\kauy\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:11:17-82
+		ADDED from [:firebase_auth] D:\P2_T2\Mobile\projectmobile\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:11:17-82
 	android:name
-		ADDED from [:firebase_auth] D:\P2_T2\Mobile\kauy\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:17-124
+		ADDED from [:firebase_auth] D:\P2_T2\Mobile\projectmobile\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:17-124
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar
-ADDED from [:firebase_core] D:\P2_T2\Mobile\kauy\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:9:13-11:85
+ADDED from [:firebase_core] D:\P2_T2\Mobile\projectmobile\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:9:13-11:85
 	android:value
-		ADDED from [:firebase_core] D:\P2_T2\Mobile\kauy\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:11:17-82
+		ADDED from [:firebase_core] D:\P2_T2\Mobile\projectmobile\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:11:17-82
 	android:name
-		ADDED from [:firebase_core] D:\P2_T2\Mobile\kauy\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:10:17-124
+		ADDED from [:firebase_core] D:\P2_T2\Mobile\projectmobile\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:10:17-124
 uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from [com.google.firebase:firebase-auth:23.2.0] C:\Users\user\.gradle\caches\transforms-3\76519965478b8e01fb9c64e34bff22a4\transformed\jetified-firebase-auth-23.2.0\AndroidManifest.xml:26:5-79
 MERGED from [com.google.firebase:firebase-firestore:25.1.3] C:\Users\user\.gradle\caches\transforms-3\ddb52affc729a05c1e84e5adffd67122\transformed\jetified-firebase-firestore-25.1.3\AndroidManifest.xml:10:5-79
@@ -480,7 +480,7 @@ ADDED from [androidx.core:core:1.13.1] C:\Users\user\.gradle\caches\transforms-3
 		ADDED from [androidx.core:core:1.13.1] C:\Users\user\.gradle\caches\transforms-3\3e4fa42964ec6369b3a52ce840a46646\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
 	android:name
 		ADDED from [androidx.core:core:1.13.1] C:\Users\user\.gradle\caches\transforms-3\3e4fa42964ec6369b3a52ce840a46646\transformed\core-1.13.1\AndroidManifest.xml:23:9-81
-permission#com.example.kauy.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+permission#com.example.projectmobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.13.1] C:\Users\user\.gradle\caches\transforms-3\3e4fa42964ec6369b3a52ce840a46646\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
 	android:protectionLevel
 		ADDED from [androidx.core:core:1.13.1] C:\Users\user\.gradle\caches\transforms-3\3e4fa42964ec6369b3a52ce840a46646\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
@@ -490,7 +490,7 @@ uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.13.1] C:\Users\user\.gradle\caches\transforms-3\3e4fa42964ec6369b3a52ce840a46646\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
 	android:name
 		ADDED from [androidx.core:core:1.13.1] C:\Users\user\.gradle\caches\transforms-3\3e4fa42964ec6369b3a52ce840a46646\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
-uses-permission#com.example.kauy.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+uses-permission#com.example.projectmobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.13.1] C:\Users\user\.gradle\caches\transforms-3\3e4fa42964ec6369b3a52ce840a46646\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
 	android:name
 		ADDED from [androidx.core:core:1.13.1] C:\Users\user\.gradle\caches\transforms-3\3e4fa42964ec6369b3a52ce840a46646\transformed\core-1.13.1\AndroidManifest.xml:26:22-94

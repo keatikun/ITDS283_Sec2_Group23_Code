@@ -1,6 +1,6 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-3    package="com.example.kauy"
+3    package="com.example.projectmobile"
 4    android:versionCode="1"
 5    android:versionName="1.0.0" >
 6
@@ -13,8 +13,8 @@
 13         to allow setting breakpoints, to provide hot reload, etc.
 14    -->
 15    <uses-permission android:name="android.permission.INTERNET" />
-15-->D:\P2_T2\Mobile\kauy\android\app\src\debug\AndroidManifest.xml:6:5-66
-15-->D:\P2_T2\Mobile\kauy\android\app\src\debug\AndroidManifest.xml:6:22-64
+15-->D:\P2_T2\Mobile\projectmobile\android\app\src\debug\AndroidManifest.xml:6:5-66
+15-->D:\P2_T2\Mobile\projectmobile\android\app\src\debug\AndroidManifest.xml:6:22-64
 16    <!--
 17     Required to query activities that can process text, see:
 18         https://developer.android.com/training/package-visibility and
@@ -23,16 +23,16 @@
 21         In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin.
 22    -->
 23    <queries>
-23-->D:\P2_T2\Mobile\kauy\android\app\src\main\AndroidManifest.xml:39:5-44:15
+23-->D:\P2_T2\Mobile\projectmobile\android\app\src\main\AndroidManifest.xml:39:5-44:15
 24        <intent>
-24-->D:\P2_T2\Mobile\kauy\android\app\src\main\AndroidManifest.xml:40:9-43:18
+24-->D:\P2_T2\Mobile\projectmobile\android\app\src\main\AndroidManifest.xml:40:9-43:18
 25            <action android:name="android.intent.action.PROCESS_TEXT" />
-25-->D:\P2_T2\Mobile\kauy\android\app\src\main\AndroidManifest.xml:41:13-72
-25-->D:\P2_T2\Mobile\kauy\android\app\src\main\AndroidManifest.xml:41:21-70
+25-->D:\P2_T2\Mobile\projectmobile\android\app\src\main\AndroidManifest.xml:41:13-72
+25-->D:\P2_T2\Mobile\projectmobile\android\app\src\main\AndroidManifest.xml:41:21-70
 26
 27            <data android:mimeType="text/plain" />
-27-->D:\P2_T2\Mobile\kauy\android\app\src\main\AndroidManifest.xml:42:13-50
-27-->D:\P2_T2\Mobile\kauy\android\app\src\main\AndroidManifest.xml:42:19-48
+27-->D:\P2_T2\Mobile\projectmobile\android\app\src\main\AndroidManifest.xml:42:13-50
+27-->D:\P2_T2\Mobile\projectmobile\android\app\src\main\AndroidManifest.xml:42:19-48
 28        </intent>
 29    </queries>
 30
@@ -45,12 +45,12 @@
 33
 34    <permission
 34-->[androidx.core:core:1.13.1] C:\Users\user\.gradle\caches\transforms-3\3e4fa42964ec6369b3a52ce840a46646\transformed\core-1.13.1\AndroidManifest.xml:22:5-24:47
-35        android:name="com.example.kauy.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+35        android:name="com.example.projectmobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
 35-->[androidx.core:core:1.13.1] C:\Users\user\.gradle\caches\transforms-3\3e4fa42964ec6369b3a52ce840a46646\transformed\core-1.13.1\AndroidManifest.xml:23:9-81
 36        android:protectionLevel="signature" />
 36-->[androidx.core:core:1.13.1] C:\Users\user\.gradle\caches\transforms-3\3e4fa42964ec6369b3a52ce840a46646\transformed\core-1.13.1\AndroidManifest.xml:24:9-44
 37
-38    <uses-permission android:name="com.example.kauy.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+38    <uses-permission android:name="com.example.projectmobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 38-->[androidx.core:core:1.13.1] C:\Users\user\.gradle\caches\transforms-3\3e4fa42964ec6369b3a52ce840a46646\transformed\core-1.13.1\AndroidManifest.xml:26:5-97
 38-->[androidx.core:core:1.13.1] C:\Users\user\.gradle\caches\transforms-3\3e4fa42964ec6369b3a52ce840a46646\transformed\core-1.13.1\AndroidManifest.xml:26:22-94
 39
@@ -61,9 +61,9 @@
 43        android:debuggable="true"
 44        android:extractNativeLibs="false"
 45        android:icon="@mipmap/ic_launcher"
-46        android:label="kauy" >
+46        android:label="projectmobile" >
 47        <activity
-48            android:name="com.example.kauy.MainActivity"
+48            android:name="com.example.projectmobile.MainActivity"
 49            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
 50            android:exported="true"
 51            android:hardwareAccelerated="true"
@@ -97,31 +97,31 @@
 79            android:value="2" />
 80
 81        <service
-81-->[:cloud_firestore] D:\P2_T2\Mobile\kauy\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:8:9-12:19
+81-->[:cloud_firestore] D:\P2_T2\Mobile\projectmobile\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:8:9-12:19
 82            android:name="com.google.firebase.components.ComponentDiscoveryService"
-82-->[:cloud_firestore] D:\P2_T2\Mobile\kauy\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:8:18-89
+82-->[:cloud_firestore] D:\P2_T2\Mobile\projectmobile\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:8:18-89
 83            android:directBootAware="true"
 83-->[com.google.firebase:firebase-common:21.0.0] C:\Users\user\.gradle\caches\transforms-3\adb3c7d5e12830590844eddff8d9c41e\transformed\jetified-firebase-common-21.0.0\AndroidManifest.xml:32:13-43
 84            android:exported="false" >
 84-->[com.google.firebase:firebase-auth:23.2.0] C:\Users\user\.gradle\caches\transforms-3\76519965478b8e01fb9c64e34bff22a4\transformed\jetified-firebase-auth-23.2.0\AndroidManifest.xml:68:13-37
 85            <meta-data
-85-->[:cloud_firestore] D:\P2_T2\Mobile\kauy\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:9:13-11:85
+85-->[:cloud_firestore] D:\P2_T2\Mobile\projectmobile\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:9:13-11:85
 86                android:name="com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar"
-86-->[:cloud_firestore] D:\P2_T2\Mobile\kauy\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:10:17-134
+86-->[:cloud_firestore] D:\P2_T2\Mobile\projectmobile\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:10:17-134
 87                android:value="com.google.firebase.components.ComponentRegistrar" />
-87-->[:cloud_firestore] D:\P2_T2\Mobile\kauy\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:11:17-82
+87-->[:cloud_firestore] D:\P2_T2\Mobile\projectmobile\build\cloud_firestore\intermediates\merged_manifest\debug\AndroidManifest.xml:11:17-82
 88            <meta-data
-88-->[:firebase_auth] D:\P2_T2\Mobile\kauy\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:9:13-11:85
+88-->[:firebase_auth] D:\P2_T2\Mobile\projectmobile\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:9:13-11:85
 89                android:name="com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar"
-89-->[:firebase_auth] D:\P2_T2\Mobile\kauy\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:17-124
+89-->[:firebase_auth] D:\P2_T2\Mobile\projectmobile\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:10:17-124
 90                android:value="com.google.firebase.components.ComponentRegistrar" />
-90-->[:firebase_auth] D:\P2_T2\Mobile\kauy\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:11:17-82
+90-->[:firebase_auth] D:\P2_T2\Mobile\projectmobile\build\firebase_auth\intermediates\merged_manifest\debug\AndroidManifest.xml:11:17-82
 91            <meta-data
-91-->[:firebase_core] D:\P2_T2\Mobile\kauy\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:9:13-11:85
+91-->[:firebase_core] D:\P2_T2\Mobile\projectmobile\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:9:13-11:85
 92                android:name="com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar"
-92-->[:firebase_core] D:\P2_T2\Mobile\kauy\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:10:17-124
+92-->[:firebase_core] D:\P2_T2\Mobile\projectmobile\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:10:17-124
 93                android:value="com.google.firebase.components.ComponentRegistrar" />
-93-->[:firebase_core] D:\P2_T2\Mobile\kauy\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:11:17-82
+93-->[:firebase_core] D:\P2_T2\Mobile\projectmobile\build\firebase_core\intermediates\merged_manifest\debug\AndroidManifest.xml:11:17-82
 94            <meta-data
 94-->[com.google.firebase:firebase-auth:23.2.0] C:\Users\user\.gradle\caches\transforms-3\76519965478b8e01fb9c64e34bff22a4\transformed\jetified-firebase-auth-23.2.0\AndroidManifest.xml:69:13-71:85
 95                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
@@ -180,7 +180,7 @@
 121-->[com.google.firebase:firebase-auth:23.2.0] C:\Users\user\.gradle\caches\transforms-3\76519965478b8e01fb9c64e34bff22a4\transformed\jetified-firebase-auth-23.2.0\AndroidManifest.xml:39:27-75
 122
 123                <data
-123-->D:\P2_T2\Mobile\kauy\android\app\src\main\AndroidManifest.xml:42:13-50
+123-->D:\P2_T2\Mobile\projectmobile\android\app\src\main\AndroidManifest.xml:42:13-50
 124                    android:host="firebase.auth"
 125                    android:path="/"
 126                    android:scheme="genericidp" />
@@ -212,7 +212,7 @@
 139-->[com.google.firebase:firebase-auth:23.2.0] C:\Users\user\.gradle\caches\transforms-3\76519965478b8e01fb9c64e34bff22a4\transformed\jetified-firebase-auth-23.2.0\AndroidManifest.xml:39:27-75
 140
 141                <data
-141-->D:\P2_T2\Mobile\kauy\android\app\src\main\AndroidManifest.xml:42:13-50
+141-->D:\P2_T2\Mobile\projectmobile\android\app\src\main\AndroidManifest.xml:42:13-50
 142                    android:host="firebase.auth"
 143                    android:path="/"
 144                    android:scheme="recaptcha" />
@@ -255,7 +255,7 @@
 166-->[com.google.firebase:firebase-common:21.0.0] C:\Users\user\.gradle\caches\transforms-3\adb3c7d5e12830590844eddff8d9c41e\transformed\jetified-firebase-common-21.0.0\AndroidManifest.xml:23:9-28:39
 167            android:name="com.google.firebase.provider.FirebaseInitProvider"
 167-->[com.google.firebase:firebase-common:21.0.0] C:\Users\user\.gradle\caches\transforms-3\adb3c7d5e12830590844eddff8d9c41e\transformed\jetified-firebase-common-21.0.0\AndroidManifest.xml:24:13-77
-168            android:authorities="com.example.kauy.firebaseinitprovider"
+168            android:authorities="com.example.projectmobile.firebaseinitprovider"
 168-->[com.google.firebase:firebase-common:21.0.0] C:\Users\user\.gradle\caches\transforms-3\adb3c7d5e12830590844eddff8d9c41e\transformed\jetified-firebase-common-21.0.0\AndroidManifest.xml:25:13-72
 169            android:directBootAware="true"
 169-->[com.google.firebase:firebase-common:21.0.0] C:\Users\user\.gradle\caches\transforms-3\adb3c7d5e12830590844eddff8d9c41e\transformed\jetified-firebase-common-21.0.0\AndroidManifest.xml:26:13-43
@@ -322,7 +322,7 @@
 204-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\user\.gradle\caches\transforms-3\e4c7bdc214a25f2cd6f36302b1dfcebb\transformed\jetified-lifecycle-process-2.7.0\AndroidManifest.xml:24:9-32:20
 205            android:name="androidx.startup.InitializationProvider"
 205-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\user\.gradle\caches\transforms-3\e4c7bdc214a25f2cd6f36302b1dfcebb\transformed\jetified-lifecycle-process-2.7.0\AndroidManifest.xml:25:13-67
-206            android:authorities="com.example.kauy.androidx-startup"
+206            android:authorities="com.example.projectmobile.androidx-startup"
 206-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\user\.gradle\caches\transforms-3\e4c7bdc214a25f2cd6f36302b1dfcebb\transformed\jetified-lifecycle-process-2.7.0\AndroidManifest.xml:26:13-68
 207            android:exported="false" >
 207-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\user\.gradle\caches\transforms-3\e4c7bdc214a25f2cd6f36302b1dfcebb\transformed\jetified-lifecycle-process-2.7.0\AndroidManifest.xml:27:13-37

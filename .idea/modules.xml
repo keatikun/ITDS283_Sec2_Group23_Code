@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/kauy.iml" filepath="$PROJECT_DIR$/kauy.iml" />
-      <module fileurl="file://$PROJECT_DIR$/android/kauy_android.iml" filepath="$PROJECT_DIR$/android/kauy_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/projectmobile.iml" filepath="$PROJECT_DIR$/projectmobile.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/projectmobile_android.iml" filepath="$PROJECT_DIR$/android/projectmobile_android.iml" />
     </modules>
   </component>
 </project>
