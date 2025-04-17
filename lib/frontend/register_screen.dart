@@ -1,7 +1,63 @@
 import 'package:flutter/material.dart';
-import 'create_user_screen.dart'; // เพิ่ม import สำหรับหน้า Create User
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'create_user_screen.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
+  @override
+  _RegisterScreenState createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  bool isLoading = false;
+
+  Future<void> registerUser(BuildContext context) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      final auth = FirebaseAuth.instance;
+      final firestore = FirebaseFirestore.instance;
+
+      final email = emailController.text.trim();
+      final password = passwordController.text.trim();
+
+      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      await firestore.collection('users').doc(userCredential.user!.uid).set({
+        'email': email,
+        'createdAt': Timestamp.now(),
+      });
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => CreateUserScreen()),
+      );
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: ${e.message}")),
+      );
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +69,6 @@ class RegisterScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Logo
                   Text(
                     'LogicChat',
                     style: TextStyle(
@@ -23,10 +78,13 @@ class RegisterScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 32),
+
                   // Email Field
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: TextField(
+                      controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         labelText: 'Enter Email',
                         border: OutlineInputBorder(
@@ -35,10 +93,12 @@ class RegisterScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+
                   // Password Field
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: TextField(
+                      controller: passwordController,
                       obscureText: true,
                       decoration: InputDecoration(
                         labelText: 'Enter Password',
@@ -48,17 +108,12 @@ class RegisterScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+
                   SizedBox(height: 16),
+
                   // Register Button
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CreateUserScreen(),
-                        ),
-                      ); // นำทางไปยังหน้า Create User
-                    },
+                    onPressed: isLoading ? null : () => registerUser(context),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                       minimumSize: Size(double.infinity, 50),
@@ -66,21 +121,21 @@ class RegisterScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),
-                    child: Text(
-                      'Register',
-                      style: TextStyle(color: Colors.white),
-                    ),
+                    child: isLoading
+                        ? CircularProgressIndicator(color: Colors.white)
+                        : Text(
+                            'Register',
+                            style: TextStyle(color: Colors.white),
+                          ),
                   ),
                 ],
               ),
             ),
-            // Divider (เส้นขีด)
-            Divider(
-              color: Colors.grey[300],
-              thickness: 1,
-            ),
+
+            Divider(color: Colors.grey[300], thickness: 1),
             SizedBox(height: 16),
-            // Sign In Link (อยู่ด้านล่าง)
+
+            // Sign In Link
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -102,7 +157,7 @@ class RegisterScreen extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 16), // ระยะห่างจากขอบล่าง
+            SizedBox(height: 16),
           ],
         ),
       ),

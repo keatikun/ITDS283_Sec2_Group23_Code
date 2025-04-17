@@ -1,6 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SettingPage extends StatelessWidget {
+  // ฟังก์ชันสำหรับล็อกเอาท์
+  Future<void> _logout(BuildContext context) async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('ล็อกเอาท์สำเร็จ')),
+      );
+      // นำทางไปยังหน้า Login และแทนที่กองซ้อนการนำทางทั้งหมด
+      Navigator.pushReplacementNamed(context, '/login');
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('เกิดข้อผิดพลาดในการล็อกเอาท์: $e')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +35,7 @@ class SettingPage extends StatelessWidget {
                 children: <Widget>[
                   CircleAvatar(
                     radius: 50,
-                    backgroundImage: NetworkImage('https://via.placeholder.com/150'), // แทนที่ด้วย URL รูปโปรไฟล์จริง
+                    backgroundImage: NetworkImage('https://via.placeholder.com/150'),
                   ),
                   Positioned(
                     bottom: 0,
@@ -45,9 +62,7 @@ class SettingPage extends StatelessWidget {
             ListTile(
               title: Text('Logout', style: TextStyle(color: Colors.red)),
               trailing: Icon(Icons.logout, color: Colors.red),
-              onTap: () {
-                // TODO: เพิ่มโค้ด Logout
-              },
+              onTap: () => _logout(context), // เรียกฟังก์ชันล็อกเอาท์
             ),
           ],
         ),
