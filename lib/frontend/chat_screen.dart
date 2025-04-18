@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'search_screen.dart';
-import 'chat_setting_screen.dart'; // ✅ import หน้า ChatSetting
+import 'chat_setting_screen.dart';
 
 class ChatScreen extends StatefulWidget {
   final String userId;
@@ -42,6 +42,9 @@ class _ChatScreenState extends State<ChatScreen> {
     if (text.isEmpty || currentUserId == null) return;
     _messageController.clear();
 
+    final timestamp = FieldValue.serverTimestamp();
+
+    // ส่งข้อความไปยัง messages subcollection
     await FirebaseFirestore.instance
         .collection('chats')
         .doc(chatId)
@@ -49,8 +52,29 @@ class _ChatScreenState extends State<ChatScreen> {
         .add({
       'senderId': currentUserId,
       'text': text,
-      'timestamp': FieldValue.serverTimestamp(),
+      'timestamp': timestamp,
     });
+
+    // ดึงชื่อและรูปของผู้ใช้ปัจจุบัน (กรณี login ใหม่แล้วไม่มีใน Firestore)
+    final currentUserName = _auth.currentUser?.displayName ?? 'ไม่ระบุชื่อ';
+    final currentUserPhoto = _auth.currentUser?.photoURL ?? '';
+
+    // บันทึกหรืออัปเดตข้อมูลหลักของแชท
+    await FirebaseFirestore.instance.collection('chats').doc(chatId).set({
+      'users': [currentUserId, widget.userId],
+      'lastMessage': text,
+      'lastTimestamp': timestamp,
+      'userInfo': {
+        currentUserId!: {
+          'name': currentUserName,
+          'imageUrl': currentUserPhoto,
+        },
+        widget.userId: {
+          'name': widget.name,
+          'imageUrl': widget.imageUrl,
+        },
+      },
+    }, SetOptions(merge: true));
   }
 
   String _formatTimestamp(Timestamp? timestamp) {
@@ -68,13 +92,13 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF6EDFF6),
+      backgroundColor: const Color(0xFF6EDFF6),
       appBar: AppBar(
         title: Text(widget.name),
         backgroundColor: Colors.orange,
         actions: [
           IconButton(
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
             onPressed: () {
               Navigator.push(
                 context,
@@ -85,12 +109,12 @@ class _ChatScreenState extends State<ChatScreen> {
             },
           ),
           IconButton(
-            icon: Icon(Icons.menu),
+            icon: const Icon(Icons.menu),
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => ChatSettingScreen(), // ✅ เปิดหน้า ChatSetting
+                  builder: (_) => ChatSettingScreen(),
                 ),
               );
             },
@@ -108,8 +132,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   .orderBy('timestamp', descending: true)
                   .snapshots(),
               builder: (context, snapshot) {
-                if (!snapshot.hasData)
-                  return Center(child: CircularProgressIndicator());
+                if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
                 final messages = snapshot.data!.docs;
                 return ListView.builder(
                   reverse: true,
@@ -118,34 +141,28 @@ class _ChatScreenState extends State<ChatScreen> {
                     final msg = messages[index];
                     final isMe = msg['senderId'] == currentUserId;
                     return Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 6.0, horizontal: 10),
+                      padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 10),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: isMe
-                            ? MainAxisAlignment.end
-                            : MainAxisAlignment.start,
+                        mainAxisAlignment:
+                            isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
                         children: [
                           if (!isMe)
-                            CircleAvatar(radius: 16, child: Icon(Icons.person)),
-                          if (!isMe) SizedBox(width: 8),
+                            const CircleAvatar(radius: 16, child: Icon(Icons.person)),
+                          if (!isMe) const SizedBox(width: 8),
                           Container(
                             constraints: BoxConstraints(
-                                maxWidth:
-                                    MediaQuery.of(context).size.width * 0.7),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 10),
+                                maxWidth: MediaQuery.of(context).size.width * 0.7),
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                             decoration: BoxDecoration(
                               color: isMe ? Colors.orange : Colors.white,
                               borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20),
-                                bottomLeft: isMe
-                                    ? Radius.circular(20)
-                                    : Radius.circular(0),
-                                bottomRight: isMe
-                                    ? Radius.circular(0)
-                                    : Radius.circular(20),
+                                topLeft: const Radius.circular(20),
+                                topRight: const Radius.circular(20),
+                                bottomLeft:
+                                    isMe ? const Radius.circular(20) : const Radius.circular(0),
+                                bottomRight:
+                                    isMe ? const Radius.circular(0) : const Radius.circular(20),
                               ),
                             ),
                             child: Column(
@@ -157,18 +174,18 @@ class _ChatScreenState extends State<ChatScreen> {
                                     color: isMe ? Colors.white : Colors.black,
                                   ),
                                 ),
-                                SizedBox(height: 4),
+                                const SizedBox(height: 4),
                                 Text(
                                   _formatTimestamp(msg['timestamp']),
-                                  style: TextStyle(
-                                      fontSize: 10, color: Colors.grey[700]),
+                                  style:
+                                      TextStyle(fontSize: 10, color: Colors.grey[700]),
                                 ),
                               ],
                             ),
                           ),
-                          if (isMe) SizedBox(width: 8),
+                          if (isMe) const SizedBox(width: 8),
                           if (isMe)
-                            CircleAvatar(radius: 16, child: Icon(Icons.person)),
+                            const CircleAvatar(radius: 16, child: Icon(Icons.person)),
                         ],
                       ),
                     );
@@ -193,9 +210,8 @@ class _ChatScreenState extends State<ChatScreen> {
                 ].map((label) {
                   return ElevatedButton(
                     onPressed: () => _sendMessage(label),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange),
-                    child: Text(label, style: TextStyle(color: Colors.white)),
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.orange),
+                    child: Text(label, style: const TextStyle(color: Colors.white)),
                   );
                 }).toList(),
               ),
@@ -205,15 +221,15 @@ class _ChatScreenState extends State<ChatScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
             child: Row(
               children: [
-                IconButton(icon: Icon(Icons.attach_file), onPressed: () {}),
-                IconButton(icon: Icon(Icons.camera_alt), onPressed: () {}),
-                IconButton(icon: Icon(Icons.photo), onPressed: () {}),
+                IconButton(icon: const Icon(Icons.attach_file), onPressed: () {}),
+                IconButton(icon: const Icon(Icons.camera_alt), onPressed: () {}),
+                IconButton(icon: const Icon(Icons.photo), onPressed: () {}),
                 Expanded(
                   child: TextField(
                     controller: _messageController,
                     decoration: InputDecoration(
                       hintText: 'พิมพ์ข้อความ...',
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
                         borderSide: BorderSide.none,
@@ -224,9 +240,9 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                 ),
                 IconButton(
-                    icon: Icon(Icons.more_vert), onPressed: _toggleQuickReply),
+                    icon: const Icon(Icons.more_vert), onPressed: _toggleQuickReply),
                 IconButton(
-                    icon: Icon(Icons.send),
+                    icon: const Icon(Icons.send),
                     onPressed: () => _sendMessage(null)),
               ],
             ),
