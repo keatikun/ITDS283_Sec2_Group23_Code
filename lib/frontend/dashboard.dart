@@ -3,8 +3,40 @@ import 'announcement.dart';
 import 'settingpage.dart';
 import 'friendpage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String displayName = '';
+  String profileImageUrl = '';
+  String currentUid = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCurrentUserData();
+  }
+
+  Future<void> _loadCurrentUserData() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final uid = user.uid;
+      final doc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      final data = doc.data();
+      if (data != null) {
+        setState(() {
+          displayName = data['displayName'] ?? 'User';
+          profileImageUrl = data['profileImageUrl'] ?? 'https://via.placeholder.com/50';
+          currentUid = uid;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,12 +76,12 @@ class HomeScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Keatikun Komkeng',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text(
+                      displayName.isNotEmpty ? displayName : 'Loading...',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
                     CircleAvatar(
-                      backgroundImage:
-                          NetworkImage('https://via.placeholder.com/50'),
+                      backgroundImage: NetworkImage(profileImageUrl),
                     ),
                   ],
                 ),
@@ -79,7 +111,7 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              AllUserList(),
+              AllUserList(currentUserUid: currentUid),
             ],
           ),
         ),
@@ -91,9 +123,10 @@ class HomeScreen extends StatelessWidget {
 class UserTile extends StatelessWidget {
   final String name;
   final String imageUrl;
-  final Function(String, String)? onTap;
+  final String uid;
+  final Function(String, String, String)? onTap;
 
-  UserTile({required this.name, required this.imageUrl, this.onTap});
+  UserTile({required this.name, required this.imageUrl, required this.uid, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +144,7 @@ class UserTile extends StatelessWidget {
           title: Text(name),
           onTap: () {
             if (onTap != null) {
-              onTap!(name, imageUrl);
+              onTap!(name, imageUrl, uid);
             }
           },
         ),
@@ -120,27 +153,65 @@ class UserTile extends StatelessWidget {
   }
 }
 
-class FavoriteList extends StatelessWidget {
+class FavoriteList extends StatefulWidget {
+  @override
+  State<FavoriteList> createState() => _FavoriteListState();
+}
+
+class _FavoriteListState extends State<FavoriteList> {
   @override
   Widget build(BuildContext context) {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) {
+      return Center(child: Text("Not logged in"));
+    }
+
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('favorites').snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('favorites')
+          .where('uid', isEqualTo: currentUser.uid)
+          .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
 
         final favoriteDocs = snapshot.data!.docs;
+
+        if (favoriteDocs.isEmpty) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("No favorites yet."),
+          );
+        }
+
         return Column(
-          children: favoriteDocs.map((doc) {
-            final data = doc.data() as Map<String, dynamic>;
-            return UserTile(
-              name: data['name'],
-              imageUrl: data['imageUrl'],
-              onTap: (name, imageUrl) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => FriendPage(name: name, imageUrl: imageUrl),
-                  ),
+          children: favoriteDocs.map((favDoc) {
+            final favData = favDoc.data() as Map<String, dynamic>;
+            final friendUid = favData['friendUid'];
+
+            // ⚠️ ดึงข้อมูลจาก users ทีละคน
+            return FutureBuilder<DocumentSnapshot>(
+              future: FirebaseFirestore.instance.collection('users').doc(friendUid).get(),
+              builder: (context, userSnapshot) {
+                if (!userSnapshot.hasData) {
+                  return ListTile(title: Text("Loading..."));
+                }
+
+                final userData = userSnapshot.data!.data() as Map<String, dynamic>;
+                final name = userData['displayName'] ?? 'No Name';
+                final imageUrl = userData['profileImageUrl'] ?? 'https://via.placeholder.com/50';
+
+                return UserTile(
+                  name: name,
+                  imageUrl: imageUrl,
+                  uid: friendUid,
+                  onTap: (name, imageUrl, uid) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FriendPage(name: name, imageUrl: imageUrl, uid: uid),
+                      ),
+                    );
+                  },
                 );
               },
             );
@@ -151,7 +222,12 @@ class FavoriteList extends StatelessWidget {
   }
 }
 
+
 class AllUserList extends StatelessWidget {
+  final String currentUserUid;
+
+  AllUserList({required this.currentUserUid});
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
@@ -161,19 +237,23 @@ class AllUserList extends StatelessWidget {
 
         final users = snapshot.data!.docs;
 
+        final filteredUsers = users.where((doc) => doc.id != currentUserUid).toList();
+
         return Column(
-          children: users.map((doc) {
+          children: filteredUsers.map((doc) {
             final data = doc.data() as Map<String, dynamic>;
-            final name = '${data['firstname']} ${data['lastname']}';
-            final imageUrl = data['imageUrl'] ?? 'https://via.placeholder.com/50';
+            final name = data['displayName'] ?? 'No Name';
+            final imageUrl = data['profileImageUrl'] ?? 'https://via.placeholder.com/50';
+            final uid = doc.id;
             return UserTile(
               name: name,
               imageUrl: imageUrl,
-              onTap: (name, imageUrl) {
+              uid: uid,
+              onTap: (name, imageUrl, uid) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => FriendPage(name: name, imageUrl: imageUrl),
+                    builder: (context) => FriendPage(name: name, imageUrl: imageUrl, uid: uid),
                   ),
                 );
               },

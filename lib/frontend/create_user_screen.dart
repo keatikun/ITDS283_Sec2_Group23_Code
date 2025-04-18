@@ -66,19 +66,21 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
   }
 
   Future<String?> _uploadProfileImage(File imageFile, String uid) async {
-    try {
-      final ref = FirebaseStorage.instance
-          .ref()
-          .child('profile_images')
-          .child('$uid.jpg');
+  try {
+    final ref = FirebaseStorage.instance
+        .ref()
+        .child('profile_images')
+        .child('$uid.jpg');
 
-      await ref.putFile(imageFile);
-      return await ref.getDownloadURL();
-    } catch (e) {
-      print('Upload error: $e');
-      return null;
-    }
+    final uploadTask = await ref.putFile(imageFile);
+    final url = await ref.getDownloadURL();
+    print("Download URL: $url"); // 👈 log เพื่อตรวจสอบ
+    return url;
+  } catch (e) {
+    print('Upload error: $e');
+    return null;
   }
+}
 
   Future<void> _submitData() async {
     final name = nameController.text.trim();
@@ -87,6 +89,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
     final lastName = lastNameController.text.trim();
     final phone = phoneController.text.trim();
     final birthday = birthdayController.text.trim();
+    
 
     if (name.isEmpty ||
         email.isEmpty ||
