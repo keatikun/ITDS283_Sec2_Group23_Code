@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'chat_screen.dart';
+
 
 class FriendPage extends StatefulWidget {
   final String name;
@@ -146,7 +148,17 @@ class _FriendPageState extends State<FriendPage> {
             ElevatedButton.icon(
               onPressed: () {
                 // TODO: เพิ่มโค้ด chat
-              },
+                Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ChatScreen(
+                  userId: widget.uid,
+                  name: widget.name,
+                  imageUrl: widget.imageUrl,
+                ),
+              ),
+            );
+          },
               icon: Icon(Icons.chat_bubble),
               label: Text('Chat'),
               style: ElevatedButton.styleFrom(
