@@ -3,17 +3,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'search_screen.dart';
 import 'chat_setting_screen.dart';
+import 'chatpage.dart';
 
 class ChatScreen extends StatefulWidget {
-  final String userId;
-  final String name;
-  final String imageUrl;
+  final String? userId;
+  final String? name;
+  final String? imageUrl;
 
   const ChatScreen({
     Key? key,
-    required this.userId,
-    required this.name,
-    required this.imageUrl,
+    this.userId,
+    this.name,
+    this.imageUrl,
   }) : super(key: key);
 
   @override
@@ -26,55 +27,164 @@ class _ChatScreenState extends State<ChatScreen> {
   String? currentUserId;
   late String chatId;
   bool _showQuickReply = false;
+  String? currentUserPhoto;
+  String? otherUserPhoto;
+  String? displayName;
+  String? currentUserName;
 
   @override
   void initState() {
     super.initState();
     currentUserId = _auth.currentUser?.uid;
     if (currentUserId != null) {
-      final ids = [currentUserId!, widget.userId]..sort();
-      chatId = ids.join('_');
+      if (widget.userId != null) {
+        final ids = [currentUserId!, widget.userId!]..sort();
+        chatId = ids.join('_');
+        print('Generated chatId: $chatId');
+        print('currentUserId: $currentUserId, otherUserId: ${widget.userId}');
+        _fetchUserPhotos();
+        displayName = widget.name;
+      } else {
+        print('No userId provided, chatId not generated');
+      }
+      _fetchCurrentUserName(); // ดึงชื่อผู้ใช้ปัจจุบันจาก Firestore
+    } else {
+      print('Error: currentUserId is null');
+    }
+  }
+
+  // ดึงชื่อผู้ใช้ปัจจุบันจาก Firestore
+  Future<void> _fetchCurrentUserName() async {
+    try {
+      final currentUserDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUserId)
+          .get();
+      if (currentUserDoc.exists) {
+        final currentUserData = currentUserDoc.data();
+        setState(() {
+          currentUserName = currentUserData?['displayName']?.toString() ?? 'ไม่ระบุชื่อ';
+        });
+        print('Current user name from Firestore: $currentUserName');
+      } else {
+        print('Current user document does not exist: $currentUserId');
+        setState(() {
+          currentUserName = 'ไม่ระบุชื่อ';
+        });
+      }
+    } catch (e) {
+      print('Error fetching current user name: $e');
+      setState(() {
+        currentUserName = 'ไม่ระบุชื่อ';
+      });
+    }
+  }
+
+  // ดึง profileImageUrl จาก users collection
+  Future<void> _fetchUserPhotos() async {
+    try {
+      // ดึง profileImageUrl ของผู้ใช้ปัจจุบัน
+      print('Fetching profileImageUrl for currentUserId: $currentUserId');
+      final currentUserDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUserId)
+          .get();
+      if (!currentUserDoc.exists) {
+        print('Current user document does not exist: $currentUserId');
+        currentUserPhoto = '';
+      } else {
+        final currentUserData = currentUserDoc.data();
+        currentUserPhoto = currentUserData?['profileImageUrl']?.toString() ?? '';
+        print('Current user profileImageUrl: $currentUserPhoto');
+      }
+
+      // ดึง profileImageUrl และชื่อของผู้ใช้ที่แชทด้วย
+      if (widget.userId != null) {
+        print('Fetching profileImageUrl for otherUserId: ${widget.userId}');
+        final otherUserDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(widget.userId)
+            .get();
+        if (!otherUserDoc.exists) {
+          print('Other user document does not exist: ${widget.userId}');
+          otherUserPhoto = '';
+          displayName = 'Unknown';
+        } else {
+          final otherUserData = otherUserDoc.data();
+          otherUserPhoto = otherUserData?['profileImageUrl']?.toString() ?? '';
+          displayName = widget.name ?? otherUserData?['displayName']?.toString() ?? 'Unknown';
+          print('Other user data: $otherUserData');
+          print('Other user profileImageUrl: $otherUserPhoto');
+          print('Display name: $displayName');
+        }
+      }
+
+      setState(() {});
+    } catch (e) {
+      print('Error fetching user photos: $e');
+      setState(() {
+        currentUserPhoto = '';
+        otherUserPhoto = '';
+        displayName = widget.name ?? 'Unknown';
+      });
     }
   }
 
   void _sendMessage(String? messageText) async {
+    if (widget.userId == null || chatId == null) {
+      print('Cannot send message: userId or chatId is null');
+      return;
+    }
+
     final text = messageText ?? _messageController.text.trim();
     if (text.isEmpty || currentUserId == null) return;
     _messageController.clear();
 
     final timestamp = FieldValue.serverTimestamp();
 
-    // ส่งข้อความไปยัง messages subcollection
-    await FirebaseFirestore.instance
-        .collection('chats')
-        .doc(chatId)
-        .collection('messages')
-        .add({
-      'senderId': currentUserId,
-      'text': text,
-      'timestamp': timestamp,
-    });
+    try {
+      // ส่งข้อความไปยัง messages subcollection
+      await FirebaseFirestore.instance
+          .collection('chats')
+          .doc(chatId)
+          .collection('messages')
+          .add({
+        'senderId': currentUserId,
+        'text': text,
+        'timestamp': timestamp,
+      });
+      print('Message sent successfully to chats/$chatId/messages');
 
-    // ดึงชื่อและรูปของผู้ใช้ปัจจุบัน (กรณี login ใหม่แล้วไม่มีใน Firestore)
-    final currentUserName = _auth.currentUser?.displayName ?? 'ไม่ระบุชื่อ';
-    final currentUserPhoto = _auth.currentUser?.photoURL ?? '';
+      // ใช้ currentUserName ที่ดึงจาก Firestore
+      await FirebaseFirestore.instance.collection('chats').doc(chatId).set({
+        'users': [currentUserId, widget.userId],
+        'lastMessage': text,
+        'lastTimestamp': timestamp,
+        'userInfo': {
+          currentUserId!: {
+            'name': currentUserName ?? 'ไม่ระบุชื่อ',
+            'imageUrl': currentUserPhoto ?? '',
+          },
+          widget.userId!: {
+            'name': displayName,
+            'imageUrl': otherUserPhoto ?? '',
+          },
+        },
+      }, SetOptions(merge: true));
+      print('Updated chats/$chatId successfully');
 
-    // บันทึกหรืออัปเดตข้อมูลหลักของแชท
-    await FirebaseFirestore.instance.collection('chats').doc(chatId).set({
-      'users': [currentUserId, widget.userId],
-      'lastMessage': text,
-      'lastTimestamp': timestamp,
-      'userInfo': {
-        currentUserId!: {
-          'name': currentUserName,
-          'imageUrl': currentUserPhoto,
-        },
-        widget.userId: {
-          'name': widget.name,
-          'imageUrl': widget.imageUrl,
-        },
-      },
-    }, SetOptions(merge: true));
+      await FirebaseFirestore.instance.collection('users').doc(currentUserId).set({
+        'chats': FieldValue.arrayUnion([chatId]),
+      }, SetOptions(merge: true));
+      print('Updated users/$currentUserId chats field');
+
+      await FirebaseFirestore.instance.collection('users').doc(widget.userId).set({
+        'chats': FieldValue.arrayUnion([chatId]),
+      }, SetOptions(merge: true));
+      print('Updated users/${widget.userId} chats field');
+    } catch (e) {
+      print('Error sending message: $e');
+    }
   }
 
   String _formatTimestamp(Timestamp? timestamp) {
@@ -91,10 +201,40 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (currentUserId == null) {
+      return const Scaffold(
+        body: Center(child: Text('Error: User not logged in')),
+      );
+    }
+
+    if (widget.userId == null || chatId == null) {
+      return Scaffold(
+        backgroundColor: const Color(0xFF6EDFF6),
+        appBar: AppBar(
+          title: const Text('Chat'),
+          backgroundColor: Colors.orange,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const ChatPage()),
+                );
+              },
+            ),
+          ],
+        ),
+        body: const Center(
+          child: Text('Please select a chat to start messaging'),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: const Color(0xFF6EDFF6),
       appBar: AppBar(
-        title: Text(widget.name),
+        title: Text(displayName ?? 'Chat'),
         backgroundColor: Colors.orange,
         actions: [
           IconButton(
@@ -132,8 +272,22 @@ class _ChatScreenState extends State<ChatScreen> {
                   .orderBy('timestamp', descending: true)
                   .snapshots(),
               builder: (context, snapshot) {
-                if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
+                if (snapshot.hasError) {
+                  print('Error fetching messages: ${snapshot.error}');
+                  return const Center(child: Text('Error loading messages'));
+                }
+
+                if (!snapshot.hasData) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
                 final messages = snapshot.data!.docs;
+                if (messages.isEmpty) {
+                  print('No messages found in chats/$chatId/messages');
+                  return const Center(child: Text('No messages yet'));
+                }
+
+                print('Loaded ${messages.length} messages');
                 return ListView.builder(
                   reverse: true,
                   itemCount: messages.length,
@@ -148,7 +302,12 @@ class _ChatScreenState extends State<ChatScreen> {
                             isMe ? MainAxisAlignment.end : MainAxisAlignment.start,
                         children: [
                           if (!isMe)
-                            const CircleAvatar(radius: 16, child: Icon(Icons.person)),
+                            CircleAvatar(
+                              radius: 16,
+                              backgroundImage: otherUserPhoto != null && otherUserPhoto!.isNotEmpty
+                                  ? NetworkImage(otherUserPhoto!)
+                                  : const AssetImage('assets/default_profile.png') as ImageProvider,
+                            ),
                           if (!isMe) const SizedBox(width: 8),
                           Container(
                             constraints: BoxConstraints(
@@ -185,7 +344,12 @@ class _ChatScreenState extends State<ChatScreen> {
                           ),
                           if (isMe) const SizedBox(width: 8),
                           if (isMe)
-                            const CircleAvatar(radius: 16, child: Icon(Icons.person)),
+                            CircleAvatar(
+                              radius: 16,
+                              backgroundImage: currentUserPhoto != null && currentUserPhoto!.isNotEmpty
+                                  ? NetworkImage(currentUserPhoto!)
+                                  : const AssetImage('assets/default_profile.png') as ImageProvider,
+                            ),
                         ],
                       ),
                     );

@@ -7,7 +7,6 @@ import 'firebase_options.dart';
 import 'frontend/login_screen.dart';
 import 'frontend/register_screen.dart';
 import 'frontend/create_user_screen.dart';
-// import 'frontend/chat_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,13 +22,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'My App',
       debugShowCheckedModeBanner: false,
-      initialRoute: '/login', // ✅ เริ่มที่หน้า login
+      initialRoute: '/login',
       routes: {
         '/login': (context) => LoginScreen(),
         '/register': (context) => RegisterScreen(),
         '/create_user': (context) => CreateUserScreen(),
-        // '/chat': (context) => ChatScreen(),
-        '/main': (context) => MainScreen(), // ✅ route สำหรับหลัง login
+        '/main': (context) => MainScreen(),
       },
     );
   }
@@ -45,7 +43,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _screens = [
     HomeScreen(),
-    ChatScreen(),
+    ChatPage(), // เปลี่ยนจาก ChatScreen() เป็น ChatPage()
     NotificationScreen(),
   ];
 
