@@ -1,9 +1,10 @@
 import 'dart:io';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
 
 class CreateUserScreen extends StatefulWidget {
   @override
@@ -56,40 +57,54 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
   }
 
   bool _isEmailValid(String email) {
-    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    final emailRegex =
+        RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
     return emailRegex.hasMatch(email);
   }
 
   bool _isPhoneValid(String phone) {
-    final phoneRegex = RegExp(r'^[0-9]{9,15}$'); // ตัวเลข 9-15 หลัก
+    final phoneRegex = RegExp(r'^[0-9]{9,15}$');
     return phoneRegex.hasMatch(phone);
   }
 
-  Future<String?> _uploadProfileImage(File imageFile, String uid) async {
-  try {
-    final ref = FirebaseStorage.instance
-        .ref()
-        .child('profile_images')
-        .child('$uid.jpg');
+  Future<String?> _uploadToImgur(File imageFile) async {
+    final clientId = '89df1b81c1baa77';
+    final url = Uri.parse('https://api.imgur.com/3/image');
 
-    final uploadTask = await ref.putFile(imageFile);
-    final url = await ref.getDownloadURL();
-    print("Download URL: $url"); // 👈 log เพื่อตรวจสอบ
-    return url;
-  } catch (e) {
-    print('Upload error: $e');
-    return null;
+    try {
+      final bytes = await imageFile.readAsBytes();
+      final base64Image = base64Encode(bytes);
+
+      final response = await http.post(
+        url,
+        headers: {
+          'Authorization': 'Client-ID $clientId',
+        },
+        body: {
+          'image': base64Image,
+        },
+      );
+
+      final data = jsonDecode(response.body);
+      if (response.statusCode == 200 && data['success'] == true) {
+        return data['data']['link'];
+      } else {
+        print('Imgur upload failed: ${data['data']['error']}');
+        return null;
+      }
+    } catch (e) {
+      print('Imgur upload error: $e');
+      return null;
+    }
   }
-}
 
   Future<void> _submitData() async {
     final name = nameController.text.trim();
     final email = emailController.text.trim();
     final firstName = firstNameController.text.trim();
     final lastName = lastNameController.text.trim();
-    final phone = phoneController.text.trim();
+    final phone = phoneController.text.trim().replaceAll(RegExp(r'\D'), '');
     final birthday = birthdayController.text.trim();
-    
 
     if (name.isEmpty ||
         email.isEmpty ||
@@ -113,7 +128,9 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
 
     if (!_isPhoneValid(phone)) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('กรุณาใส่เบอร์โทรศัพท์ให้ถูกต้อง (เฉพาะตัวเลข 9-15 หลัก)')),
+        SnackBar(
+            content: Text(
+                'กรุณาใส่เบอร์โทรศัพท์ให้ถูกต้อง (เฉพาะตัวเลข 9-15 หลัก)')),
       );
       return;
     }
@@ -126,7 +143,8 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
       final uid = FirebaseAuth.instance.currentUser?.uid;
       if (uid == null) throw Exception('User not signed in');
 
-      String? profileImageUrl = await _uploadProfileImage(_profileImage!, uid);
+      String? profileImageUrl = await _uploadToImgur(_profileImage!);
+      if (profileImageUrl == null) throw Exception('Image upload failed');
 
       await FirebaseFirestore.instance.collection('users').doc(uid).set({
         'displayName': name,
@@ -169,7 +187,6 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Profile image + name
                   Row(
                     children: [
                       Stack(

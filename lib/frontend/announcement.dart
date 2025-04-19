@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:uuid/uuid.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class AnnouncementScreen extends StatefulWidget {
   @override
@@ -43,14 +43,48 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
     }
   }
 
+  Future<String?> _uploadToImgur(File imageFile) async {
+    final clientId = '89df1b81c1baa77'; // เปลี่ยนเป็น Client-ID ของคุณถ้าจำเป็น
+    final url = Uri.parse('https://api.imgur.com/3/image');
+
+    try {
+      final bytes = await imageFile.readAsBytes();
+      final base64Image = base64Encode(bytes);
+
+      final response = await http.post(
+        url,
+        headers: {
+          'Authorization': 'Client-ID $clientId',
+        },
+        body: {
+          'image': base64Image,
+        },
+      );
+
+      final data = jsonDecode(response.body);
+      if (response.statusCode == 200 && data['success'] == true) {
+        return data['data']['link'];
+      } else {
+        print('Imgur upload failed: ${data['data']['error']}');
+        return null;
+      }
+    } catch (e) {
+      print('Imgur upload error: $e');
+      return null;
+    }
+  }
+
   Future<void> _uploadAnnouncement() async {
     String? imageUrl;
 
     if (_imageFile != null) {
-      final fileName = Uuid().v4();
-      final ref = FirebaseStorage.instance.ref().child('announcements/$fileName.jpg');
-      await ref.putFile(_imageFile!);
-      imageUrl = await ref.getDownloadURL();
+      imageUrl = await _uploadToImgur(_imageFile!);
+      if (imageUrl == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("ไม่สามารถอัปโหลดรูปภาพได้")),
+        );
+        return;
+      }
     }
 
     final timestamp = DateTime(
@@ -68,7 +102,9 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
       'timestamp': timestamp,
     });
 
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Announcement uploaded")));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("ประกาศถูกอัปโหลดเรียบร้อย")),
+    );
     Navigator.pop(context);
   }
 
@@ -115,9 +151,16 @@ class _AnnouncementScreenState extends State<AnnouncementScreen> {
             GestureDetector(
               onTap: _pickImage,
               child: Container(
-                height: 100,
+                height: 150,
                 decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
-                child: Center(child: _imageFile == null ? Text('Click to upload') : Text('Image selected')),
+                child: Center(
+                  child: _imageFile == null
+                      ? Text('แตะเพื่อเลือกรูปภาพ')
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.file(_imageFile!, fit: BoxFit.cover),
+                        ),
+                ),
               ),
             ),
             SizedBox(height: 16),
