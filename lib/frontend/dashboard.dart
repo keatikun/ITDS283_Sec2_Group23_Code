@@ -16,29 +16,9 @@ class _HomeScreenState extends State<HomeScreen> {
   String currentUid = '';
 
   @override
-  void initState() {
-    super.initState();
-    _loadCurrentUserData();
-  }
-
-  Future<void> _loadCurrentUserData() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      final uid = user.uid;
-      final doc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
-      final data = doc.data();
-      if (data != null) {
-        setState(() {
-          displayName = data['displayName'] ?? 'User';
-          profileImageUrl = data['profileImageUrl'] ?? 'https://via.placeholder.com/50';
-          currentUid = uid;
-        });
-      }
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final currentUser = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Home'),
@@ -64,58 +44,77 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: Container(
-        color: Colors.lightBlueAccent[100],
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              /// Header
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      displayName.isNotEmpty ? displayName : 'Loading...',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    CircleAvatar(
-                      backgroundImage: NetworkImage(profileImageUrl),
-                    ),
-                  ],
-                ),
-              ),
+      body: currentUser == null
+          ? Center(child: Text("Not logged in"))
+          : StreamBuilder<DocumentSnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(currentUser.uid)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData)
+                  return Center(child: CircularProgressIndicator());
 
-              /// Favorite Section
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.favorite_border, size: 30),
-                    SizedBox(width: 8),
-                    Text("Favorites", style: TextStyle(fontSize: 18)),
-                  ],
-                ),
-              ),
-              FavoriteList(),
+                final data = snapshot.data!.data() as Map<String, dynamic>;
+                final displayName = data['displayName'] ?? 'User';
+                final profileImageUrl =
+                    data['profileImageUrl'] ?? 'https://via.placeholder.com/50';
 
-              /// User List Section
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.group, size: 30),
-                    SizedBox(width: 8),
-                    Text("All Users", style: TextStyle(fontSize: 18)),
-                  ],
-                ),
-              ),
-              AllUserList(currentUserUid: currentUid),
-            ],
-          ),
-        ),
-      ),
+                return Container(
+                  color: Colors.lightBlueAccent[100],
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        /// Header
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                displayName,
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              CircleAvatar(
+                                backgroundImage: NetworkImage(profileImageUrl),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        /// Favorite Section
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Icon(Icons.favorite_border, size: 30),
+                              SizedBox(width: 8),
+                              Text("Favorites", style: TextStyle(fontSize: 18)),
+                            ],
+                          ),
+                        ),
+                        FavoriteList(),
+
+                        /// User List Section
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Icon(Icons.group, size: 30),
+                              SizedBox(width: 8),
+                              Text("All Users", style: TextStyle(fontSize: 18)),
+                            ],
+                          ),
+                        ),
+                        AllUserList(currentUserUid: currentUser.uid),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
     );
   }
 }
@@ -126,7 +125,11 @@ class UserTile extends StatelessWidget {
   final String uid;
   final Function(String, String, String)? onTap;
 
-  UserTile({required this.name, required this.imageUrl, required this.uid, this.onTap});
+  UserTile(
+      {required this.name,
+      required this.imageUrl,
+      required this.uid,
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -172,7 +175,8 @@ class _FavoriteListState extends State<FavoriteList> {
           .where('uid', isEqualTo: currentUser.uid)
           .snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+        if (!snapshot.hasData)
+          return Center(child: CircularProgressIndicator());
 
         final favoriteDocs = snapshot.data!.docs;
 
@@ -190,15 +194,20 @@ class _FavoriteListState extends State<FavoriteList> {
 
             // ⚠️ ดึงข้อมูลจาก users ทีละคน
             return FutureBuilder<DocumentSnapshot>(
-              future: FirebaseFirestore.instance.collection('users').doc(friendUid).get(),
+              future: FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(friendUid)
+                  .get(),
               builder: (context, userSnapshot) {
                 if (!userSnapshot.hasData) {
                   return ListTile(title: Text("Loading..."));
                 }
 
-                final userData = userSnapshot.data!.data() as Map<String, dynamic>;
+                final userData =
+                    userSnapshot.data!.data() as Map<String, dynamic>;
                 final name = userData['displayName'] ?? 'No Name';
-                final imageUrl = userData['profileImageUrl'] ?? 'https://via.placeholder.com/50';
+                final imageUrl = userData['profileImageUrl'] ??
+                    'https://via.placeholder.com/50';
 
                 return UserTile(
                   name: name,
@@ -208,7 +217,8 @@ class _FavoriteListState extends State<FavoriteList> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => FriendPage(name: name, imageUrl: imageUrl, uid: uid),
+                        builder: (context) => FriendPage(
+                            name: name, imageUrl: imageUrl, uid: uid),
                       ),
                     );
                   },
@@ -222,7 +232,6 @@ class _FavoriteListState extends State<FavoriteList> {
   }
 }
 
-
 class AllUserList extends StatelessWidget {
   final String currentUserUid;
 
@@ -233,17 +242,20 @@ class AllUserList extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('users').snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+        if (!snapshot.hasData)
+          return Center(child: CircularProgressIndicator());
 
         final users = snapshot.data!.docs;
 
-        final filteredUsers = users.where((doc) => doc.id != currentUserUid).toList();
+        final filteredUsers =
+            users.where((doc) => doc.id != currentUserUid).toList();
 
         return Column(
           children: filteredUsers.map((doc) {
             final data = doc.data() as Map<String, dynamic>;
             final name = data['displayName'] ?? 'No Name';
-            final imageUrl = data['profileImageUrl'] ?? 'https://via.placeholder.com/50';
+            final imageUrl =
+                data['profileImageUrl'] ?? 'https://via.placeholder.com/50';
             final uid = doc.id;
             return UserTile(
               name: name,
@@ -253,7 +265,8 @@ class AllUserList extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => FriendPage(name: name, imageUrl: imageUrl, uid: uid),
+                    builder: (context) =>
+                        FriendPage(name: name, imageUrl: imageUrl, uid: uid),
                   ),
                 );
               },

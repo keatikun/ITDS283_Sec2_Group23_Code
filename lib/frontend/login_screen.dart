@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       if (userCredential.user != null) {
-        Navigator.pushReplacementNamed(context, '/main'); // ไปหน้า dashboard
+        Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => false); // ไปหน้า dashboard
       }
     } on FirebaseAuthException catch (e) {
       String message = 'Login failed. Please try again.';
