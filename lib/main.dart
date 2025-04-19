@@ -43,7 +43,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _screens = [
     HomeScreen(),
-    ChatPage(), // เปลี่ยนจาก ChatScreen() เป็น ChatPage()
+    ChatScreenWrapper(), // เปลี่ยนจาก ChatPage() เป็น ChatScreenWrapper()
     NotificationScreen(),
   ];
 

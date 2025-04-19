@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'chat_screen.dart'; // นำเข้า chat_screen.dart
+import 'chat_screen.dart';
 
 // Wrapper เพื่อใช้ใน MainScreen โดยไม่ต้องส่งพารามิเตอร์
 class ChatScreenWrapper extends StatelessWidget {
@@ -9,6 +9,7 @@ class ChatScreenWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('ChatScreenWrapper build called');
     return Scaffold(
       backgroundColor: const Color(0xFF6EDFF6),
       appBar: AppBar(
@@ -17,17 +18,59 @@ class ChatScreenWrapper extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
-            onPressed: () {},
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: ChatSearchDelegate(),
+              );
+            },
           ),
         ],
       ),
-      body: const ChatPage(), // ใช้ ChatPage เพื่อแสดงรายการแชท
+      body: const ChatPage(),
     );
   }
 }
 
+// SearchDelegate สำหรับจัดการการค้นหา
+class ChatSearchDelegate extends SearchDelegate<String> {
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: const Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.arrow_back),
+      onPressed: () {
+        close(context, '');
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return ChatPage(searchQuery: query);
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return ChatPage(searchQuery: query);
+  }
+}
+
 class ChatPage extends StatefulWidget {
-  const ChatPage({Key? key}) : super(key: key);
+  final String? searchQuery;
+
+  const ChatPage({Key? key, this.searchQuery}) : super(key: key);
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -47,7 +90,6 @@ class _ChatPageState extends State<ChatPage> {
     if (messageDate == today) {
       return 'Today';
     } else {
-      // แสดงเป็นชื่อวัน (เช่น "Thursday")
       final daysOfWeek = [
         'Monday',
         'Tuesday',
@@ -61,15 +103,9 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
-  // ฟังก์ชันจำลองจำนวนข้อความใหม่ (ตามภาพ)
-  String _getMessageCount(int index) {
-    // จำลองตัวเลขตามภาพ
-    final counts = ['3', '5', '1', '2', '5', '7', '8'];
-    return counts[index % counts.length];
-  }
-
   @override
   Widget build(BuildContext context) {
+    print('ChatPage build called');
     if (currentUser == null) {
       return const Center(child: Text('Error: User not logged in'));
     }
@@ -95,7 +131,6 @@ class _ChatPageState extends State<ChatPage> {
           return const Center(child: Text('No user data found'));
         }
 
-        // แก้ไขการจัดการ chats เพื่อรองรับทั้ง String และ List
         final chatIdsRaw = userData['chats'];
         final List<String> chatIds;
         if (chatIdsRaw is String) {
@@ -112,7 +147,6 @@ class _ChatPageState extends State<ChatPage> {
           return const Center(child: Text('No chats available'));
         }
 
-        // แบ่ง chatIds ออกเป็นกลุ่มย่อย (สูงสุด 10 รายการต่อกลุ่ม) เพื่อหลีกเลี่ยงข้อจำกัดของ whereIn
         const int batchSize = 10;
         final List<List<String>> chatIdBatches = [];
         for (int i = 0; i < chatIds.length; i += batchSize) {
@@ -146,17 +180,38 @@ class _ChatPageState extends State<ChatPage> {
                 }
 
                 final chats = snapshot.data!.docs;
-                if (chats.isEmpty) {
-                  print('No chats found for batch: $batch');
-                  return const SizedBox.shrink();
+
+                // กรองแชทตามคำค้น (ถ้ามี)
+                List<QueryDocumentSnapshot> filteredChats = chats;
+                if (widget.searchQuery != null &&
+                    widget.searchQuery!.isNotEmpty) {
+                  final query = widget.searchQuery!.toLowerCase();
+                  filteredChats = chats.where((chat) {
+                    final users = List<String>.from(chat['users'] ?? []);
+                    final otherUserId = users.firstWhere(
+                      (id) => id != currentUser!.uid,
+                      orElse: () => '',
+                    );
+                    final userInfo =
+                        Map<String, dynamic>.from(chat['userInfo'] ?? {});
+                    final otherUser =
+                        Map<String, dynamic>.from(userInfo[otherUserId] ?? {});
+                    final name =
+                        (otherUser['name'] ?? '').toString().toLowerCase();
+                    return name.contains(query);
+                  }).toList();
+                }
+
+                if (filteredChats.isEmpty) {
+                  return const Center(child: Text('No chats found'));
                 }
 
                 return ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: chats.length,
+                  itemCount: filteredChats.length,
                   itemBuilder: (context, index) {
-                    final chat = chats[index];
+                    final chat = filteredChats[index];
                     final users = List<String>.from(chat['users'] ?? []);
                     final otherUserId = users.firstWhere(
                       (id) => id != currentUser!.uid,
@@ -171,7 +226,6 @@ class _ChatPageState extends State<ChatPage> {
                         ? otherUser['name']
                         : 'Unknown';
 
-                    // ดึง profileImageUrl จาก users collection ของ otherUserId
                     return StreamBuilder<DocumentSnapshot>(
                       stream: FirebaseFirestore.instance
                           .collection('users')
@@ -189,6 +243,7 @@ class _ChatPageState extends State<ChatPage> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
+                              elevation: 0,
                               child: ListTile(
                                 contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 16, vertical: 8),
@@ -221,25 +276,6 @@ class _ChatPageState extends State<ChatPage> {
                                       style: TextStyle(
                                         fontSize: 12,
                                         color: Colors.grey[500],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Container(
-                                      width: 20,
-                                      height: 20,
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.orange,
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          _getMessageCount(index),
-                                          style: const TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
                                       ),
                                     ),
                                   ],
@@ -271,6 +307,7 @@ class _ChatPageState extends State<ChatPage> {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
+                              elevation: 0,
                               child: ListTile(
                                 contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 16, vertical: 8),
@@ -303,25 +340,6 @@ class _ChatPageState extends State<ChatPage> {
                                       style: TextStyle(
                                         fontSize: 12,
                                         color: Colors.grey[500],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Container(
-                                      width: 20,
-                                      height: 20,
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.orange,
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          _getMessageCount(index),
-                                          style: const TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
                                       ),
                                     ),
                                   ],
@@ -358,6 +376,7 @@ class _ChatPageState extends State<ChatPage> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
+                            elevation: 0,
                             child: ListTile(
                               contentPadding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 8),
@@ -393,25 +412,6 @@ class _ChatPageState extends State<ChatPage> {
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: Colors.grey[500],
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Container(
-                                    width: 20,
-                                    height: 20,
-                                    decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.orange,
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        _getMessageCount(index),
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
                                     ),
                                   ),
                                 ],
