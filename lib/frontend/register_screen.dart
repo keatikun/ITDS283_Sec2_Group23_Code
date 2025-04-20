@@ -42,7 +42,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error: ${e.message}")),
+        SnackBar(content: Text("Register failed. Please try again.")),
       );
     } finally {
       setState(() {
